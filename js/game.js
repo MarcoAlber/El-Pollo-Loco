@@ -4,8 +4,22 @@ let keyboard = new KeyBoard();
 
 function init() {
     canvas = document.getElementById('canvas');
+    document.getElementById('startButton').style.display = "none";
     initLevel();
     world = new World(canvas, keyboard);
+}
+
+window.addEventListener("load", startScreen);
+
+async function startScreen() {
+    let canvas = document.getElementById('canvas');
+    let img = await loadImage("./assets/img/9_intro_outro_screens/start/startscreen_2.png");
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, img.width = 720, img.height = 480);
+}
+
+function loadImage(url) {
+    return new Promise(r => { let i = new Image(); i.onload = (() => r(i)); i.src = url; });
 }
 
 function fullscreen() {

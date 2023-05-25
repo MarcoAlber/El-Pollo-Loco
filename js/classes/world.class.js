@@ -10,14 +10,13 @@ class World {
     statusBottles = new StatusBottles();
     statusCoins = new StatusCoins();
     throwableObject = [];
-    bottles = 0;
+    bottles = 5;
     coins = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-
         this.drawWorld();
         this.setWorld();
         this.run();
@@ -112,13 +111,9 @@ class World {
 
         this.ctx.fillStyle = "white";
 
-        this.ctx.fillText("=", 60, 120);
+        this.ctx.fillText(`${this.bottles}`, 70, 120);
 
-        this.ctx.fillText(`${this.bottles}`, 80, 120);
-
-        this.ctx.fillText("=", 180, 120);
-
-        this.ctx.fillText(`${this.coins}`, 200, 120);
+        this.ctx.fillText(`${this.coins}`, 185, 120);
 
         this.ctx.translate(this.camera_x, 0);
 

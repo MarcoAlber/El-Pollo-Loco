@@ -37,10 +37,35 @@ canvas {
     display: block;
 }
 
+.startScreen {
+    position: relative;
+    width: 720px;
+    height: 480px;
+}
+
+.startButton {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: #FFC81D;
+    font-size: 39px;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+    letter-spacing: 1px;
+    border-radius: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.startButton:hover {
+    background-color: #FFB300;
+}
+
 @media (min-width: 1920px) {
     body {
         background-size: 100%;
-       
     }
 }
 
@@ -56,6 +81,11 @@ canvas {
         border-radius: 0;
     }
 
+    .startScreen {
+        width: 100%;
+        border-radius: 0;
+    }
+
     h1 {
         display: none;
     }
@@ -63,6 +93,10 @@ canvas {
 
 @media only screen and (max-height: calc(480px * 1.25)) {
     canvas {
+        height: 100vh;
+    }
+
+    .startScreen {
         height: 100vh;
     }
 }

@@ -13,7 +13,7 @@ function initLevel() {
             new Endboss(2200)
         ],
         [
-            new CollactableBottles(300, 200),
+            new CollactableBottles(300, 350),
             new CollactableBottles(900, 200),
             new CollactableBottles(1500, 200)
         ],

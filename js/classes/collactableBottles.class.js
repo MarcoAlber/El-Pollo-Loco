@@ -6,7 +6,13 @@ class CollactableBottles extends DrawableObject {
         right: 25
     };
     constructor(x, y) {
-        super().loadImage('./assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
+        super();
+        if (y < 300) {
+            this.loadImage('./assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
+        }
+        else {
+            this.loadImage('./assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png');
+        }
         this.x = x;
         this.y = y;
         this.width = 400 / 4;

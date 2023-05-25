@@ -37,12 +37,16 @@
     <title>El Pollo Loco</title>
 </head>
 
-<body onload="init()">
+<body>
     <h1>El Pollo Loco</h1>
     <div class="fullscreenContainer" id="fullscreen">
-        <canvas width="720" height="480" id="canvas">
-
-        </canvas>
+        <div id="startScreen" class="startScreen">
+            <div onclick="init()" class="startButton" id="startButton">
+                <span>Start Game</span>
+            </div>
+            <canvas width="720" height="480" id="canvas">
+            </canvas>
+        </div>
     </div>
 </body>
 
