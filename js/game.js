@@ -7,6 +7,7 @@ function init() {
     document.getElementById('startButton').style.display = "none";
     initLevel();
     world = new World(canvas, keyboard);
+    moveButtons();
 }
 
 window.addEventListener("load", startScreen);
@@ -15,7 +16,7 @@ async function startScreen() {
     let canvas = document.getElementById('canvas');
     let img = await loadImage("./assets/img/9_intro_outro_screens/start/startscreen_2.png");
     let ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, img.width = 720, img.height = 480);
+    ctx.drawImage(img, 0, 0, img.width = canvas.width, img.height = canvas.height);
 }
 
 function loadImage(url) {
@@ -26,8 +27,10 @@ function fullscreen() {
     let fullscreen = document.getElementById('fullscreen');
     let canvas = document.getElementById('canvas');
     canvas.style.width = "100%";
-    canvas.style.height = "100vh";
+    canvas.style.height = "100dvh";
     canvas.style.borderRadius = "0";
+    document.getElementById('fullscreenButtonImg').src = "./assets/img/moveButtons/fullscreen-exit.png";
+    document.getElementById('fullscreenButton').onclick = function () { exitFullscreen() };
     enterFullscreen(fullscreen);
 }
 
@@ -49,11 +52,11 @@ function enterFullscreen(element) {
 
 function exitFullscreen() {
     let canvas = document.getElementById('canvas');
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
+    if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
     }
+    document.getElementById('fullscreenButtonImg').src = "./assets/img/moveButtons/fullscreen.png";
+    document.getElementById('fullscreenButton').onclick = function () { fullscreen() };
     canvas.style.width = "720px";
     canvas.style.height = "480px";
     canvas.style.borderRadius = "25px";
@@ -72,6 +75,9 @@ window.addEventListener('keydown', (event) => {
     else if (event.keyCode == 71) {
         keyboard.throwing = true;
     }
+    if (event.keyCode == 27) {
+        exitFullscreen();
+    }
 });
 
 window.addEventListener('keyup', (event) => {
@@ -88,3 +94,56 @@ window.addEventListener('keyup', (event) => {
         keyboard.throwing = false;
     }
 });
+
+function moveButtons() {
+    showMoveButtons();
+    moveLeft();
+    moveRight();
+    jump();
+    throwing();
+}
+
+function moveLeft() {
+    document.getElementById('walkLeftButton').addEventListener('touchstart', () => {
+        keyboard.left = true;
+    });
+    document.getElementById('walkLeftButton').addEventListener('touchend', () => {
+        keyboard.left = false;
+    });
+}
+
+function moveRight() {
+    document.getElementById('walkRightButton').addEventListener('touchstart', () => {
+        keyboard.right = true;
+    });
+    document.getElementById('walkRightButton').addEventListener('touchend', () => {
+        keyboard.right = false;
+    });
+}
+
+function jump() {
+    document.getElementById('jumpButton').addEventListener('touchstart', () => {
+        keyboard.jump = true;
+    });
+    document.getElementById('jumpButton').addEventListener('touchend', () => {
+        keyboard.jump = false;
+    });
+}
+
+function throwing() {
+    document.getElementById('throwButton').addEventListener('touchstart', () => {
+        keyboard.throwing = true;
+    });
+    document.getElementById('throwButton').addEventListener('touchend', () => {
+        keyboard.throwing = false;
+    });
+}
+
+function showMoveButtons() {
+    if (window.matchMedia("(max-width: 1200px)").matches) {
+        document.getElementById('walkLeftButton').classList.remove("dp-none");
+        document.getElementById('walkRightButton').classList.remove("dp-none");
+        document.getElementById('jumpButton').classList.remove("dp-none");
+        document.getElementById('throwButton').classList.remove("dp-none");
+    }
+}

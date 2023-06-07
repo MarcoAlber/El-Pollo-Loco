@@ -1,7 +1,7 @@
 class BabyChicken extends MovableObject {
     y = 370;
-    width = 236 / 4;
-    height = 210 / 4;
+    width = 236 / 4.5;
+    height = 210 / 4.5;
     offset = {
         top: 0,
         bottom: 0,

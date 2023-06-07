@@ -1,13 +1,13 @@
 class MovableObject extends DrawableObject {
-    hitX = 80;
-    hitY = 245;
-    hitWidth = 86.41;
-    hitHeight = 177.69;
     speed = 0.125;
     otherDirection = false;
+    otherDirectionEndboss = false;
     speedY = 0;
     acceleration = 0.5;
     lastHit = 0;
+    alreadySlept = false;
+    lastMove = new Date().getTime();
+    snoring_sound = new Audio('./assets/audio/snoring.mp3');
 
     applyGravity() {
         setInterval(() => {
@@ -30,6 +30,12 @@ class MovableObject extends DrawableObject {
         return timepassed < 1;
     }
 
+    standingStill() {
+        let timepassed = new Date().getTime() - this.lastMove;
+        timepassed = timepassed / 1000;
+        return timepassed > 2;
+    }
+
     isDead() {
         return this.energy <= 0;
     }
@@ -50,33 +56,109 @@ class MovableObject extends DrawableObject {
     }
 
     walkLeft() {
+        this.alreadySlept = true;
+        this.stopSound(this.snoring_sound);
         this.x -= this.speed;
         this.hitX -= this.speed;
         this.otherDirection = true;
+        this.lastMove = new Date().getTime() + 500;
     }
 
     walkRight() {
+        this.alreadySlept = true;
+        this.stopSound(this.snoring_sound);
         this.x += this.speed;
         this.hitX += this.speed;
         this.otherDirection = false;
+        this.lastMove = new Date().getTime() + 500;
     }
 
+
     jump() {
+        this.alreadySlept = true;
+        this.stopSound(this.snoring_sound);
         this.speedY = 14.5;
         this.currentImage = 0;
+        this.lastMove = new Date().getTime() + 1500;
+    }
+
+    throw(throwDirection) {
+        this.speedY = 15;
+        this.applyGravity();
+        this.lastMove = new Date().getTime() + 500;
+        setInterval(() => {
+            throwDirection;
+        }, 25);
+
+        setInterval(() => {
+            if(world.bottleHit){
+                this.playAnimation(this.images_splash);
+            }
+            else{
+            this.playAnimation(this.images_rotation);
+            }
+        }, 120);
+    }
+
+    throwBottleFront() {
+        return setInterval(() => {
+            this.x += 10;
+        }, 25);
+    }
+
+    throwBottleBack() {
+        return setInterval(() => {
+            this.x -= 10;
+        }, 25);
     }
 
     playAnimation(image) {
+        this.alreadySlept = true;
+        this.stopSound(this.snoring_sound);
         let i = this.currentImage % image.length;
         let path = image[i];
         this.img = this.imageCache[path];
         this.currentImage++;
     }
 
+    sleepAnimation(image) {
+        if (this.alreadySlept) {
+            this.currentImage = 0;
+            this.alreadySlept = false;
+        }
+        let i = this.currentImage % image.length;
+        let path = image[i];
+        this.img = this.imageCache[path];
+        if (i < 8) {
+            this.currentImage++;
+        }
+        if (i >= 8) {
+            this.currentImage++;
+            this.snoring_sound.play();
+            this.snoring_sound.volume = 0.2;
+        }
+        if (i == image.length - 1) {
+            this.currentImage = 8;
+            this.currentImage % image.length;
+        }
+    }
+
     isColliding(mo) {
-        return this.hitX + this.hitWidth - mo.offset.right > mo.x + mo.offset.left &&
-            this.hitY + this.hitHeight - mo.offset.bottom > mo.y + mo.offset.top &&
-            this.hitX + mo.offset.left < mo.x + mo.width - mo.offset.right &&
-            this.hitY + mo.offset.top < mo.y + mo.height - mo.offset.bottom;
+        return this.hitX + this.hitWidth > mo.x + mo.offset.left &&
+            this.hitY + this.hitHeight > mo.y + mo.offset.top &&
+            this.hitX < mo.x + mo.width - mo.offset.right &&
+            this.hitY < mo.y + mo.height - mo.offset.bottom;
+    }
+
+    bottleIsColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    }
+
+    stopSound(sound) {
+        sound.pause();
+        sound.currentTime = 0;
     }
 }

@@ -1,5 +1,4 @@
 class Character extends MovableObject {
-
     images_walking = [
         './assets/img/2_character_pepe/2_walk/W-21.png',
         './assets/img/2_character_pepe/2_walk/W-22.png',
@@ -32,12 +31,36 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/5_dead/D-55.png',
         './assets/img/2_character_pepe/5_dead/D-56.png'
     ];
+    images_sleeping = [
+        './assets/img/2_character_pepe/1_idle/idle/I-1.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-2.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-3.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-4.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-5.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-6.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-7.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-8.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-9.png',
+        './assets/img/2_character_pepe/1_idle/idle/I-10.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-11.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-12.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-13.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-14.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-15.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-16.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-17.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-18.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-19.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-20.png'
+    ];
+
     speed = 5;
     world;
     walking_sound = new Audio('./assets/audio/running.mp3');
 
     constructor() {
-        super().loadImage('./assets/img/2_character_pepe/1_idle/idle/I-1.png');
+        super().loadImage(this.images_sleeping[0]);
+        this.loadImages(this.images_sleeping);
         this.loadImages(this.images_walking);
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_hurting);
@@ -52,18 +75,18 @@ class Character extends MovableObject {
             if (keyboard.right && this.x < this.world.level.level_end_x) {
                 this.walkRight();
                 this.walking_sound.play();
+                this.walking_sound.volume = 0.2;
             }
-            else if (keyboard.left && this.x > -600) {
+            if (keyboard.left && this.x > -600) {
                 this.walkLeft();
                 this.walking_sound.play();
+                this.walking_sound.volume = 0.2;
             }
-            else if (keyboard.jump && !this.isAboveGround()) {
+            if (keyboard.jump && !this.isAboveGround()) {
                 this.jump();
             }
-
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-
 
         setInterval(() => {
             if (this.isDead()) {
@@ -73,21 +96,22 @@ class Character extends MovableObject {
                 this.playAnimation(this.images_hurting);
             }
             else if (this.isAboveGround()) {
-                this.jumpAnimation();
-
-                /*console.log('current', this.currentImage);*/
+                this.playAnimation(this.images_jumping);
+            }
+            else if (this.standingStill() && !this.isAboveGround()) {
+                this.sleepAnimation(this.images_sleeping);
+                if (keyboard.throwing) {
+                    this.currentImage = 0;
+                    this.alreadySlept = true;
+                    this.stopSound(this.snoring_sound);
+                }
             }
             else {
-                this.loadImage('./assets/img/2_character_pepe/1_idle/idle/I-1.png');
+                this.loadImage(this.images_sleeping[0]);
                 if (keyboard.right || keyboard.left) {
                     this.playAnimation(this.images_walking);
                 }
             }
         }, 150);
-
-    }
-
-    jumpAnimation() {
-        this.playAnimation(this.images_jumping);
     }
 }
