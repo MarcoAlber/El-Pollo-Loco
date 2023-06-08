@@ -1,7 +1,7 @@
 class MovableObject extends DrawableObject {
     speed = 0.125;
     otherDirection = false;
-    otherDirectionEndboss = false;
+    chickenIsDead = false;
     speedY = 0;
     acceleration = 0.5;
     lastHit = 0;
@@ -91,11 +91,11 @@ class MovableObject extends DrawableObject {
         }, 25);
 
         setInterval(() => {
-            if(world.bottleHit){
+            if (world.bottleHit) {
                 this.playAnimation(this.images_splash);
             }
-            else{
-            this.playAnimation(this.images_rotation);
+            else {
+                this.playAnimation(this.images_rotation);
             }
         }, 120);
     }

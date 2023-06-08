@@ -69,8 +69,8 @@ canvas {
     position: absolute;
     width: 30px;
     height: 30px;
-    right: 2%;
-    top: 1%;
+    right: 1.5%;
+    top: 2%;
     cursor: pointer;
 }
 
@@ -101,10 +101,15 @@ canvas {
 .throwButton img,
 .jumpButton img,
 .walkRightButton img,
-.walkLeftButton img,
-.fullscreenButton img {
+.walkLeftButton img {
     width: 30px;
     height: 30px;
+    object-fit: contain;
+}
+
+.fullscreenButton img {
+    width: 25px;
+    height: 25px;
     object-fit: contain;
 }
 

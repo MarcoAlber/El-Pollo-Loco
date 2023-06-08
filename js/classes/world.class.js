@@ -60,10 +60,22 @@ class World {
     }
 
     enemyFollowChar(enemy) {
-        if (this.character.x > enemy.x) {
+        if (this.character.x > enemy.x && !enemy.chickenIsDead) {
             enemy.speed = -0.5 + Math.random() * 0.25;
             enemy.otherDirection = true;
-        } else {
+
+        }
+        else if (this.character.x + 10 > enemy.x && this.character.x - 10 < enemy.x && !enemy.chickenIsDead) {
+            enemy.speed = 0;
+            enemy.otherDirection = true;
+            enemy.loadImage(enemy.images_walking[2]);
+        }
+
+        if (enemy.chickenIsDead) {
+            enemy.speed = 0;
+        }
+
+        else {
             enemy.otherDirection = false;
             enemy.speed = 0.5 + Math.random() * 0.25;
         }
@@ -95,7 +107,7 @@ class World {
 
     checkCollision() {
         this.level.enemies.forEach((enemy, indexOfChicken) => {
-            if (this.character.isColliding(enemy) && this.character.energy > 0 && indexOfChicken < this.level.enemies.length - 1 && !this.character.isAboveGround()) {
+            if (this.character.isColliding(enemy) && this.character.energy > 0 && indexOfChicken < this.level.enemies.length - 1 && !this.character.isAboveGround() && !enemy.chickenIsDead) {
                 this.character.hit();
                 this.statusbar.setPercentage(this.character.energy);
                 console.log(this.character.energy);
@@ -111,8 +123,8 @@ class World {
     checkIfJumpedOnEnemy() {
         this.level.enemies.forEach((enemy, indexOfChicken) => {
             if (indexOfChicken < this.level.enemies.length - 1) {
-                if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) {
-                    this.level.enemies.splice(indexOfChicken, 1);
+                if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0 && !enemy.chickenIsDead) {
+                    this.killChicken(enemy);
                     this.character.jump();
                 }
             }
@@ -121,15 +133,15 @@ class World {
 
     checkBottleCollision() {
         this.level.enemies.forEach((enemy, indexOfChicken) => {
-            let lastBottle = world.throwableObject.length - 1;
+            let lastBottle = this.throwableObject.length - 1;
             let indexOfEndboss = world.level.enemies.length - 1;
             let endboss = world.level.enemies[indexOfEndboss];
-            if (world.throwableObject[lastBottle].bottleIsColliding(enemy) && indexOfChicken < indexOfEndboss) {
+            if (this.throwableObject[lastBottle].bottleIsColliding(enemy) && indexOfChicken < indexOfEndboss) {
+                this.killChicken(enemy);
                 this.bottleHit = true;
-                this.level.enemies.splice(indexOfChicken, 1);
                 console.log("bottleHit", lastBottle);
             }
-            if (world.throwableObject[lastBottle].bottleIsColliding(enemy) && enemy instanceof Endboss) {
+            if (this.throwableObject[lastBottle].bottleIsColliding(enemy) && enemy instanceof Endboss) {
                 if (enemy.energy > 0 && !endboss.isHurt()) {
                     enemy.hit();
                     this.bottleHit = true;
@@ -141,7 +153,15 @@ class World {
                 }
             }
         });
+    }
 
+    killChicken(enemy) {
+        clearInterval(enemy.intervalID);
+        enemy.chickenIsDead = true;
+        enemy.loadImage(enemy.image_dead);
+        setTimeout(() => {
+            enemy.height = 0;
+        }, 4000);
     }
 
     checkCollectingBottles() {
