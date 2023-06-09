@@ -20,8 +20,10 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 10;
-        this.lastHit = new Date().getTime();
+        if (!world.endbossIsDead) {
+            this.energy -= 10;
+            this.lastHit = new Date().getTime();
+        }
     }
 
     isHurt() {
@@ -85,7 +87,6 @@ class MovableObject extends DrawableObject {
     throw(throwDirection) {
         this.speedY = 15;
         this.applyGravity();
-        this.lastMove = new Date().getTime() + 500;
         setInterval(() => {
             throwDirection;
         }, 25);

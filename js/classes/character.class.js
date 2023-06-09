@@ -57,6 +57,9 @@ class Character extends MovableObject {
     speed = 5;
     world;
     walking_sound = new Audio('./assets/audio/running.mp3');
+    jumping_sound = new Audio('./assets/audio/jumping.mp3');
+    character_hurting_sound = new Audio('./assets/audio/character_hurting.mp3');
+    character_dead_sound = new Audio('./assets/audio/character_dead.mp3');
 
     constructor() {
         super().loadImage(this.images_sleeping[0]);
@@ -72,18 +75,19 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
-            if (keyboard.right && this.x < this.world.level.level_end_x) {
+            if (keyboard.right && this.x < this.world.level.level_end_x && !this.isDead() && !world.endbossIsDead) {
                 this.walkRight();
                 this.walking_sound.play();
                 this.walking_sound.volume = 0.2;
             }
-            if (keyboard.left && this.x > -600) {
+            if (keyboard.left && this.x > -600 && !this.isDead() && !world.endbossIsDead) {
                 this.walkLeft();
                 this.walking_sound.play();
                 this.walking_sound.volume = 0.2;
             }
-            if (keyboard.jump && !this.isAboveGround()) {
+            if (keyboard.jump && !this.isAboveGround() && !this.isDead() && !world.endbossIsDead) {
                 this.jump();
+                this.jumping_sound.play();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
@@ -91,20 +95,38 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.images_dead);
+                this.stopSound(world.chicken_song_sound);
+                this.character_dead_sound.play();
+                this.character_dead_sound.volume = 0.2;
+                setTimeout(() => {
+                    clearAllIntervals();
+                    document.getElementById('youLostScreen').classList.remove('dp-none');
+                    document.getElementById('startButton').innerHTML = '<span>Try again</span>';
+                    document.getElementById('startButton').classList.remove('dp-none');
+                }, 3500);
+
             }
             else if (this.isHurt()) {
                 this.playAnimation(this.images_hurting);
+                if (this.energy > 10) {
+                    this.character_hurting_sound.play();
+                    this.character_hurting_sound.volume = 0.2;
+                }
             }
             else if (this.isAboveGround()) {
                 this.playAnimation(this.images_jumping);
             }
-            else if (this.standingStill() && !this.isAboveGround()) {
+            else if (this.standingStill() && !this.isAboveGround() && !world.endbossIsDead) {
                 this.sleepAnimation(this.images_sleeping);
                 if (keyboard.throwing) {
+                    this.lastMove = new Date().getTime() + 2000;
                     this.currentImage = 0;
                     this.alreadySlept = true;
                     this.stopSound(this.snoring_sound);
                 }
+            }
+            else if (world.endbossIsDead) {
+                this.playAnimation(this.images_jumping);
             }
             else {
                 this.loadImage(this.images_sleeping[0]);

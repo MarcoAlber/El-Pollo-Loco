@@ -11,10 +11,13 @@ class World {
     statusCoins = new StatusCoins();
     throwableObject = [];
     endbossAlreadySeen = false;
+    endbossIsDead = false;
     indexOfLastThrownBottle = 0;
     bottleHit = false;
-    bottles = 5;
+    bottles = 10;
     coins = 0;
+    dead_chicken_sound = new Audio('./assets/audio/dead_chicken.mp3');
+    chicken_song_sound = new Audio('./assets/audio/chicken_song.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -24,6 +27,8 @@ class World {
         this.setWorld();
         this.run();
         this.checkCharacterLocation();
+        this.chicken_song_sound.play();
+        this.chicken_song_sound.volume = 0.2;
     }
 
     setWorld() {
@@ -71,7 +76,7 @@ class World {
             enemy.loadImage(enemy.images_walking[2]);
         }
 
-        if (enemy.chickenIsDead) {
+        else if (enemy.chickenIsDead) {
             enemy.speed = 0;
         }
 
@@ -85,23 +90,26 @@ class World {
         if (this.character.x > endboss.x) {
             endboss.speed = -0.025;
             endboss.otherDirection = true;
-        } else {
+        }
+        else {
             endboss.otherDirection = false;
         }
     }
 
     checkThrowObject() {
-        if (this.keyboard.throwing && this.bottles > 0 && this.throwableObject.length < 1) {
-            let bottle = new ThrowableObject(this.character.hitX, this.character.hitY);
-            this.throwableObject.push(bottle);
-            this.bottles--;
-        }
+        if (!this.character.isDead() && !world.endbossIsDead) {
+            if (this.keyboard.throwing && this.bottles > 0 && this.throwableObject.length < 1) {
+                let bottle = new ThrowableObject(this.character.hitX, this.character.hitY);
+                this.throwableObject.push(bottle);
+                this.bottles--;
+            }
 
-        if (this.keyboard.throwing && this.bottles > 0 && this.throwableObject[this.indexOfLastThrownBottle].speedY < -30) {
-            let bottle = new ThrowableObject(this.character.hitX, this.character.hitY);
-            this.throwableObject.push(bottle);
-            this.bottles--;
-            this.indexOfLastThrownBottle++;
+            if (this.keyboard.throwing && this.bottles > 0 && this.throwableObject[this.indexOfLastThrownBottle].speedY < -30) {
+                let bottle = new ThrowableObject(this.character.hitX, this.character.hitY);
+                this.throwableObject.push(bottle);
+                this.bottles--;
+                this.indexOfLastThrownBottle++;
+            }
         }
     }
 
@@ -110,12 +118,10 @@ class World {
             if (this.character.isColliding(enemy) && this.character.energy > 0 && indexOfChicken < this.level.enemies.length - 1 && !this.character.isAboveGround() && !enemy.chickenIsDead) {
                 this.character.hit();
                 this.statusbar.setPercentage(this.character.energy);
-                console.log(this.character.energy);
             }
             if (this.character.isColliding(enemy) && this.character.energy > 0 && enemy instanceof Endboss) {
                 this.character.hit();
                 this.statusbar.setPercentage(this.character.energy);
-                console.log(this.character.energy);
             }
         });
     }
@@ -124,6 +130,8 @@ class World {
         this.level.enemies.forEach((enemy, indexOfChicken) => {
             if (indexOfChicken < this.level.enemies.length - 1) {
                 if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0 && !enemy.chickenIsDead) {
+                    this.dead_chicken_sound.play();
+                    this.dead_chicken_sound.volume = 0.2;
                     this.killChicken(enemy);
                     this.character.jump();
                 }
@@ -137,19 +145,20 @@ class World {
             let indexOfEndboss = world.level.enemies.length - 1;
             let endboss = world.level.enemies[indexOfEndboss];
             if (this.throwableObject[lastBottle].bottleIsColliding(enemy) && indexOfChicken < indexOfEndboss) {
+                this.dead_chicken_sound.play();
+                this.dead_chicken_sound.volume = 0.2;
                 this.killChicken(enemy);
                 this.bottleHit = true;
-                console.log("bottleHit", lastBottle);
             }
             if (this.throwableObject[lastBottle].bottleIsColliding(enemy) && enemy instanceof Endboss) {
                 if (enemy.energy > 0 && !endboss.isHurt()) {
                     enemy.hit();
                     this.bottleHit = true;
-                    console.log(enemy.energy);
                     this.statusbarEndboss.setPercentage(enemy.energy);
                 }
-                else {
+                if (enemy.energy <= 0) {
                     enemy.isDead();
+                    this.endbossIsDead = true;
                 }
             }
         });

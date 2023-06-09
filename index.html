@@ -41,24 +41,57 @@
     <h1>El Pollo Loco</h1>
     <div class="fullscreenContainer" id="fullscreen">
         <div id="startScreen" class="startScreen">
+            <div id="gameOverScreen" class="gameOverContainer dp-none"><img
+                    src="./assets/img/9_intro_outro_screens/game_over/game over!.png"></div>
+            <div id="youLostScreen" class="youLostContainer dp-none"><img
+                    src="./assets/img/9_intro_outro_screens/game_over/oh no you lost!.png"></div>
             <div onclick="init()" class="startButton" id="startButton">
                 <span>Start Game</span>
             </div>
-            <div onclick="fullscreen()" class="fullscreenButton" id="fullscreenButton"><img id="fullscreenButtonImg"
-                    src="./assets/img/moveButtons/fullscreen.png"></div>
-            <div>
-                <div class="walkLeftButton dp-none" id="walkLeftButton"><img
-                        src="./assets/img/moveButtons/left-128.png"></div>
-                <div class="walkRightButton dp-none" id="walkRightButton"><img
-                        src="./assets/img/moveButtons/right-128.png">
-                </div>
-                <div class="jumpButton dp-none" id="jumpButton"><img src="./assets/img/moveButtons/jump.png"></div>
-                <div class="throwButton dp-none" id="throwButton"><img src="./assets/img/moveButtons/throw.png"></div>
+            <div class="infoButton" id="infoButton"><img id="infoButtonImg" src="./assets/img/moveButtons/info.png">
             </div>
-            <canvas width="720" height="480" id="canvas">
-            </canvas>
+            <div class="infoContainer dp-none">
+                <h3>Keys to play the game</h3>
+                <table>
+                    <tr>
+                        <th>key</th>
+                        <th>action</th>
+                    </tr>
+                    <tr>
+                        <td>left arrow ←</td>
+                        <td>walk left</td>
+                    </tr>
+                    <tr>
+                        <td>right arrow →</td>
+                        <td>walk right</td>
+                    </tr>
+                    <tr>
+                        <td>top arrow ↑</td>
+                        <td>jump</td>
+                    </tr>
+                    <tr>
+                        <td>G</td>
+                        <td>throw bottle</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <div onclick="fullscreen()" class="fullscreenButton" id="fullscreenButton"><img id="fullscreenButtonImg"
+                        src="./assets/img/moveButtons/fullscreen.png"></div>
+                <div>
+                    <div class="walkLeftButton dp-none" id="walkLeftButton"><img
+                            src="./assets/img/moveButtons/left-128.png"></div>
+                    <div class="walkRightButton dp-none" id="walkRightButton"><img
+                            src="./assets/img/moveButtons/right-128.png">
+                    </div>
+                    <div class="jumpButton dp-none" id="jumpButton"><img src="./assets/img/moveButtons/jump.png"></div>
+                    <div class="throwButton dp-none" id="throwButton"><img src="./assets/img/moveButtons/throw.png">
+                    </div>
+                </div>
+                <canvas width="720" height="480" id="canvas">
+                </canvas>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

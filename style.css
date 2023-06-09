@@ -12,6 +12,7 @@ body {
     justify-content: center;
     background: url('./assets/img/background_images/desert.png');
     background-position: center;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
 }
 
 .fullscreenContainer {
@@ -25,7 +26,6 @@ body {
 h1 {
     position: fixed;
     top: 2dvh;
-    font-family: 'zabars', Arial, Helvetica, sans-serif;
     font-size: 75px;
     letter-spacing: 5px;
     text-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
@@ -41,6 +41,41 @@ canvas {
     position: relative;
 }
 
+.gameOverContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.gameOverContainer img {
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+}
+
+.youLostContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.youLostContainer img {
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+}
+
+.infoContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.8;
+    color: white;
+    border-radius: 25px;
+    z-index: 10;
+}
+
 .startButton {
     position: absolute;
     top: 8%;
@@ -48,13 +83,16 @@ canvas {
     transform: translate(-50%);
     background-color: #FFC81D;
     font-size: 39px;
-    font-family: 'zabars', Arial, Helvetica, sans-serif;
     letter-spacing: 1px;
     border-radius: 25px;
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
     z-index: 10;
+}
+
+.startButton:hover {
+    background-color: #FFB300;
 }
 
 .walkLeftButton {
@@ -67,10 +105,19 @@ canvas {
 
 .fullscreenButton {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    right: 1.5%;
+    width: 25px;
+    height: 25px;
+    right: 2%;
     top: 2%;
+    cursor: pointer;
+}
+
+.infoButton {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 2.5%;
+    top: 2.5%;
     cursor: pointer;
 }
 
@@ -107,14 +154,11 @@ canvas {
     object-fit: contain;
 }
 
-.fullscreenButton img {
+.fullscreenButton img,
+.infoButton img {
     width: 25px;
     height: 25px;
     object-fit: contain;
-}
-
-.startButton:hover {
-    background-color: #FFB300;
 }
 
 .dp-none {

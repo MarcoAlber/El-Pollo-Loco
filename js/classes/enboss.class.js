@@ -41,11 +41,14 @@ class Endboss extends MovableObject {
     height = 1217 / 2.75;
     y = 25;
     offset = {
-        top: 200,
+        top: 100,
         bottom: 0,
         left: 40,
         right: 50
     };
+
+    endboss_hurting_sound = new Audio('./assets/audio/endboss_hurting.mp3');
+    endboss_dead_sound = new Audio('./assets/audio/endboss_dead.mp3');
 
     constructor(positionX) {
         super().loadImage(this.images_alert[0]);
@@ -64,7 +67,6 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.images_walking);
                 this.moveLeftObjects();
                 this.speed = 0.025;
-                console.log(this.x + 300 > world.character.x && this.x - 50 < world.character.x);
             }
             if (this.x + 300 > world.character.x && this.x - 50 < world.character.x) {
                 this.playAnimation(this.images_attack);
@@ -74,11 +76,24 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.images_alert);
             }
             if (this.isHurt()) {
+                if (!world.endbossIsDead) {
+                    this.endboss_hurting_sound.play();
+                    this.endboss_hurting_sound.volume = 0.2;
+                }
                 this.playAnimation(this.images_hurt);
             }
             if (this.isDead()) {
+                this.endboss_dead_sound.play();
+                this.endboss_dead_sound.volume = 0.2;
+                this.stopSound(world.chicken_song_sound);
                 this.playAnimation(this.images_dead);
                 this.speed = 0;
+                setTimeout(() => {
+                    clearAllIntervals();
+                    document.getElementById('gameOverScreen').classList.remove('dp-none');
+                    document.getElementById('startButton').innerHTML = '<span>Play again</span>';
+                    document.getElementById('startButton').classList.remove('dp-none');
+                }, 5000);
             }
         }, 250);
     }
