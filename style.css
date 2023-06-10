@@ -15,14 +15,6 @@ body {
     font-family: 'zabars', Arial, Helvetica, sans-serif;
 }
 
-.fullscreenContainer {
-    width: 100%;
-    height: 100dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 h1 {
     position: fixed;
     top: 2dvh;
@@ -37,28 +29,36 @@ canvas {
     display: block;
 }
 
+.turnDevice {
+    max-width: 60%;
+    border-radius: 25px;
+    font-size: 25px;
+    top: 0;
+    bottom: 0;
+    letter-spacing: 0.5px;
+    background-color: #FFB300;
+}
+
 .startScreen {
     position: relative;
 }
 
-.gameOverContainer {
-    position: absolute;
+.fullscreenContainer {
     width: 100%;
-    height: 100%;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.gameOverContainer img {
-    width: 100%;
-    height: 100%;
-    border-radius: 25px;
-}
-
+.gameOverContainer,
 .youLostContainer {
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
+.gameOverContainer img,
 .youLostContainer img {
     width: 100%;
     height: 100%;
@@ -69,11 +69,42 @@ canvas {
     position: absolute;
     width: 100%;
     height: 100%;
+    padding: 0;
     background-color: black;
     opacity: 0.8;
-    color: white;
     border-radius: 25px;
     z-index: 10;
+
+}
+
+.howToPlay {
+    font-size: 40px;
+    height: 90%;
+    letter-spacing: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #FFB300;
+    align-content: space-between;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+    letter-spacing: 3px;
+}
+
+table {
+    display: flex;
+    justify-content: center;
+}
+
+tbody {
+    width: 325px;
+}
+
+td {
+    width: 50%;
 }
 
 .startButton {
@@ -95,19 +126,21 @@ canvas {
     background-color: #FFB300;
 }
 
-.walkLeftButton {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    left: 5%;
-    bottom: 3%;
-}
-
-.fullscreenButton {
+.fullscreenButton,
+.closeInfoButton {
     position: absolute;
     width: 25px;
     height: 25px;
     right: 2%;
+    top: 2%;
+    cursor: pointer;
+}
+
+.soundButton {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 10%;
     top: 2%;
     cursor: pointer;
 }
@@ -121,12 +154,26 @@ canvas {
     cursor: pointer;
 }
 
+.walkLeftButton {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 5%;
+    bottom: 3%;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #FFB300;
+}
+
 .walkRightButton {
     position: absolute;
     width: 30px;
     height: 30px;
     left: 16%;
     bottom: 3%;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #FFB300;
 }
 
 .jumpButton {
@@ -135,6 +182,9 @@ canvas {
     height: 30px;
     right: 16%;
     bottom: 3%;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #FFB300;
 }
 
 .throwButton {
@@ -143,6 +193,9 @@ canvas {
     height: 30px;
     right: 5%;
     bottom: 3%;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #FFB300;
 }
 
 .throwButton img,
@@ -155,7 +208,9 @@ canvas {
 }
 
 .fullscreenButton img,
-.infoButton img {
+.infoButton img,
+.soundButton img,
+.closeInfoButton img {
     width: 25px;
     height: 25px;
     object-fit: contain;
@@ -175,11 +230,29 @@ canvas {
     .fullscreenButton {
         display: none;
     }
+
+    .infoButton {
+        display: none;
+    }
+
+    .soundButton {
+        right: 2%;
+    }
+
+    .infoContainer {
+        display: none;
+    }
 }
 
 @media (max-width: 700px) {
     h1 {
         display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .startButton {
+        font-size: 25px;
     }
 }
 
@@ -191,6 +264,11 @@ canvas {
 
     .startScreen {
         width: 100%;
+        border-radius: 0;
+    }
+
+    .gameOverContainer img,
+    .youLostContainer img {
         border-radius: 0;
     }
 

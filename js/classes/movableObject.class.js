@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     alreadySlept = false;
     lastMove = new Date().getTime();
-    snoring_sound = new Audio('./assets/audio/snoring.mp3');
+    snoring_sound = sounds[9];
 
     applyGravity() {
         setInterval(() => {
@@ -115,7 +115,6 @@ class MovableObject extends DrawableObject {
 
     playAnimation(image) {
         this.alreadySlept = true;
-        this.stopSound(this.snoring_sound);
         let i = this.currentImage % image.length;
         let path = image[i];
         this.img = this.imageCache[path];
@@ -136,7 +135,6 @@ class MovableObject extends DrawableObject {
         if (i >= 8) {
             this.currentImage++;
             this.snoring_sound.play();
-            this.snoring_sound.volume = 0.2;
         }
         if (i == image.length - 1) {
             this.currentImage = 8;

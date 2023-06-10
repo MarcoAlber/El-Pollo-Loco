@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="152x152" href="./assets/img/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
     <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
@@ -48,50 +48,63 @@
             <div onclick="init()" class="startButton" id="startButton">
                 <span>Start Game</span>
             </div>
-            <div class="infoButton" id="infoButton"><img id="infoButtonImg" src="./assets/img/moveButtons/info.png">
+            <dialog class="turnDevice" id="turnDevice">
+                <span>Turn your device for the best game experience!</span>
+            </dialog>
+            <div onclick="openInfoContainer()" class="infoButton" id="infoButton"><img
+                    src="./assets/img/moveButtons/info.png">
             </div>
-            <div class="infoContainer dp-none">
-                <h3>Keys to play the game</h3>
-                <table>
-                    <tr>
-                        <th>key</th>
-                        <th>action</th>
-                    </tr>
-                    <tr>
-                        <td>left arrow ←</td>
-                        <td>walk left</td>
-                    </tr>
-                    <tr>
-                        <td>right arrow →</td>
-                        <td>walk right</td>
-                    </tr>
-                    <tr>
-                        <td>top arrow ↑</td>
-                        <td>jump</td>
-                    </tr>
-                    <tr>
-                        <td>G</td>
-                        <td>throw bottle</td>
-                    </tr>
-                </table>
-            </div>
+            <dialog id="infoContainer" class="infoContainer">
+                <div onclick="closeInfoContainer()" id="closeInfoButton" class="closeInfoButton"><img
+                        src="./assets/img/moveButtons/close-info.png"></div>
+                <div class="howToPlay">
+                    <h2>Keys to play the game</h2>
+                    <table>
+                        <tr>
+                            <td><u>key</u></td>
+                            <td><u>action</u></td>
+                        </tr>
+                        <tr>
+                            <td>←</td>
+                            <td>walk left</td>
+                        </tr>
+                        <tr>
+                            <td>→</td>
+                            <td>walk right</td>
+                        </tr>
+                        <tr>
+                            <td>↑</td>
+                            <td>jump</td>
+                        </tr>
+                        <tr>
+                            <td>G</td>
+                            <td>throw bottle</td>
+                        </tr>
+                    </table>
+                </div>
+            </dialog>
             <div>
                 <div onclick="fullscreen()" class="fullscreenButton" id="fullscreenButton"><img id="fullscreenButtonImg"
                         src="./assets/img/moveButtons/fullscreen.png"></div>
                 <div>
-                    <div class="walkLeftButton dp-none" id="walkLeftButton"><img
-                            src="./assets/img/moveButtons/left-128.png"></div>
-                    <div class="walkRightButton dp-none" id="walkRightButton"><img
-                            src="./assets/img/moveButtons/right-128.png">
+                    <div onclick="soundOnOff()" class="soundButton" id="soundButton">
+                        <img id="soundOnButtonImg" src="./assets/img/moveButtons/sound.png">
                     </div>
-                    <div class="jumpButton dp-none" id="jumpButton"><img src="./assets/img/moveButtons/jump.png"></div>
-                    <div class="throwButton dp-none" id="throwButton"><img src="./assets/img/moveButtons/throw.png">
+                    <div>
+                        <div class="walkLeftButton dp-none" id="walkLeftButton"><img
+                                src="./assets/img/moveButtons/left-128.png"></div>
+                        <div class="walkRightButton dp-none" id="walkRightButton"><img
+                                src="./assets/img/moveButtons/right-128.png">
+                        </div>
+                        <div class="jumpButton dp-none" id="jumpButton"><img src="./assets/img/moveButtons/jump.png">
+                        </div>
+                        <div class="throwButton dp-none" id="throwButton"><img src="./assets/img/moveButtons/throw.png">
+                        </div>
                     </div>
+                    <canvas width="720" height="480" id="canvas">
+                    </canvas>
                 </div>
-                <canvas width="720" height="480" id="canvas">
-                </canvas>
             </div>
-        </div>
 </body>
 
 </html>

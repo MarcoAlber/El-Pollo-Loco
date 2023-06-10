@@ -56,10 +56,11 @@ class Character extends MovableObject {
 
     speed = 5;
     world;
-    walking_sound = new Audio('./assets/audio/running.mp3');
-    jumping_sound = new Audio('./assets/audio/jumping.mp3');
-    character_hurting_sound = new Audio('./assets/audio/character_hurting.mp3');
-    character_dead_sound = new Audio('./assets/audio/character_dead.mp3');
+    walking_sound = sounds[2];
+    jumping_sound = sounds[3];
+    character_hurting_sound = sounds[4];
+    character_dead_sound = sounds[5];
+
 
     constructor() {
         super().loadImage(this.images_sleeping[0]);
@@ -78,12 +79,10 @@ class Character extends MovableObject {
             if (keyboard.right && this.x < this.world.level.level_end_x && !this.isDead() && !world.endbossIsDead) {
                 this.walkRight();
                 this.walking_sound.play();
-                this.walking_sound.volume = 0.2;
             }
             if (keyboard.left && this.x > -600 && !this.isDead() && !world.endbossIsDead) {
                 this.walkLeft();
                 this.walking_sound.play();
-                this.walking_sound.volume = 0.2;
             }
             if (keyboard.jump && !this.isAboveGround() && !this.isDead() && !world.endbossIsDead) {
                 this.jump();
@@ -95,9 +94,9 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.images_dead);
+                this.stopSound(this.snoring_sound);
                 this.stopSound(world.chicken_song_sound);
                 this.character_dead_sound.play();
-                this.character_dead_sound.volume = 0.2;
                 setTimeout(() => {
                     clearAllIntervals();
                     document.getElementById('youLostScreen').classList.remove('dp-none');
@@ -107,10 +106,10 @@ class Character extends MovableObject {
 
             }
             else if (this.isHurt()) {
+                this.stopSound(this.snoring_sound);
                 this.playAnimation(this.images_hurting);
                 if (this.energy > 10) {
                     this.character_hurting_sound.play();
-                    this.character_hurting_sound.volume = 0.2;
                 }
             }
             else if (this.isAboveGround()) {
@@ -122,7 +121,7 @@ class Character extends MovableObject {
                     this.lastMove = new Date().getTime() + 2000;
                     this.currentImage = 0;
                     this.alreadySlept = true;
-                    this.stopSound(this.snoring_sound);
+                    this.stopSound(sounds[6]);
                 }
             }
             else if (world.endbossIsDead) {

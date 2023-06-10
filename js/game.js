@@ -1,15 +1,35 @@
 let canvas;
 let world;
 let keyboard = new KeyBoard();
+let soundOn = true;
+let sounds = [
+    new Audio('./assets/audio/dead_chicken.mp3'),
+    new Audio('./assets/audio/chicken_song.mp3'),
+    new Audio('./assets/audio/running.mp3'),
+    new Audio('./assets/audio/jumping.mp3'),
+    new Audio('./assets/audio/character_hurting.mp3'),
+    new Audio('./assets/audio/character_dead.mp3'),
+    new Audio('./assets/audio/endboss_hurting.mp3'),
+    new Audio('./assets/audio/endboss_dead.mp3'),
+    new Audio('./assets/audio/collect_coin.mp3'),
+    new Audio('./assets/audio/snoring.mp3'),
+    new Audio('./assets/audio/chicken_song.mp3')
+];
 
 function init() {
-    canvas = document.getElementById('canvas');
-    document.getElementById('startButton').classList.add('dp-none');
-    document.getElementById('youLostScreen').classList.add('dp-none');
-    document.getElementById('gameOverScreen').classList.add('dp-none');
-    initLevel();
-    world = new World(canvas, keyboard);
-    moveButtons();
+    if (window.innerHeight > window.innerWidth) {
+        document.getElementById('turnDevice').open = true;
+    }
+    else {
+        document.getElementById('turnDevice').open = false;
+        canvas = document.getElementById('canvas');
+        document.getElementById('startButton').classList.add('dp-none');
+        document.getElementById('youLostScreen').classList.add('dp-none');
+        document.getElementById('gameOverScreen').classList.add('dp-none');
+        initLevel();
+        world = new World(canvas, keyboard, sounds);
+        moveButtons();
+    }
 }
 
 window.addEventListener("load", startScreen);
@@ -19,10 +39,25 @@ async function startScreen() {
     let img = await loadImage("./assets/img/9_intro_outro_screens/start/startscreen_2.png");
     let ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, img.width = canvas.width, img.height = canvas.height);
+    gameSound();
 }
 
 function loadImage(url) {
     return new Promise(r => { let i = new Image(); i.onload = (() => r(i)); i.src = url });
+}
+
+function closeInfoContainer() {
+    document.getElementById('infoContainer').open = false;
+    document.getElementById('fullscreenButton').classList.remove('dp-none');
+    if (document.getElementById('startButton').classList.contains('dp-none')) {
+        init();
+    }
+}
+
+function openInfoContainer() {
+    document.getElementById('infoContainer').open = true;
+    document.getElementById('fullscreenButton').classList.add('dp-none');
+    clearAllIntervals();
 }
 
 function fullscreen() {
@@ -31,6 +66,7 @@ function fullscreen() {
     canvas.style.width = "100%";
     canvas.style.height = "100dvh";
     canvas.style.borderRadius = "0";
+    document.getElementById('infoContainer').style.borderRadius = "0";
     document.getElementById('fullscreenButtonImg').src = "./assets/img/moveButtons/fullscreen-exit.png";
     document.getElementById('fullscreenButton').onclick = function () { exitFullscreen() };
     enterFullscreen(fullscreen);
@@ -62,6 +98,7 @@ function exitFullscreen() {
     canvas.style.width = "720px";
     canvas.style.height = "480px";
     canvas.style.borderRadius = "25px";
+    document.getElementById('infoContainer').style.borderRadius = "25px";
 }
 
 window.addEventListener('keydown', (event) => {
@@ -156,4 +193,27 @@ function showMoveButtons() {
         document.getElementById('jumpButton').classList.remove("dp-none");
         document.getElementById('throwButton').classList.remove("dp-none");
     }
+}
+
+function soundOnOff() {
+    if (soundOn) {
+        document.getElementById('soundOnButtonImg').src = "./assets/img/moveButtons/sound-off.png";
+        soundOn = false;
+        for (let i = 0; i < sounds.length; i++) {
+            sounds[i].volume = 0;
+        }
+    }
+    else {
+        document.getElementById('soundOnButtonImg').src = "./assets/img/moveButtons/sound.png";
+        soundOn = true;
+        gameSound();
+    }
+}
+
+function gameSound() {
+    for (let i = 0; i < 9; i++) {
+        sounds[i].volume = 0.2;
+    }
+    sounds[9].volume = 0.7;
+    sounds[10].volume = 0.1;
 }

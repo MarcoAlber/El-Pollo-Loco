@@ -47,8 +47,8 @@ class Endboss extends MovableObject {
         right: 50
     };
 
-    endboss_hurting_sound = new Audio('./assets/audio/endboss_hurting.mp3');
-    endboss_dead_sound = new Audio('./assets/audio/endboss_dead.mp3');
+    endboss_hurting_sound = sounds[6];
+    endboss_dead_sound = sounds[7];
 
     constructor(positionX) {
         super().loadImage(this.images_alert[0]);
@@ -78,13 +78,12 @@ class Endboss extends MovableObject {
             if (this.isHurt()) {
                 if (!world.endbossIsDead) {
                     this.endboss_hurting_sound.play();
-                    this.endboss_hurting_sound.volume = 0.2;
                 }
                 this.playAnimation(this.images_hurt);
             }
             if (this.isDead()) {
                 this.endboss_dead_sound.play();
-                this.endboss_dead_sound.volume = 0.2;
+
                 this.stopSound(world.chicken_song_sound);
                 this.playAnimation(this.images_dead);
                 this.speed = 0;

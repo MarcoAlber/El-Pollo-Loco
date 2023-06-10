@@ -4,6 +4,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    sounds;
     camera_x = 0;
     statusbar = new Statusbar();
     statusbarEndboss = new StatusbarEndboss();
@@ -14,21 +15,22 @@ class World {
     endbossIsDead = false;
     indexOfLastThrownBottle = 0;
     bottleHit = false;
-    bottles = 10;
+    bottles = 5;
     coins = 0;
-    dead_chicken_sound = new Audio('./assets/audio/dead_chicken.mp3');
-    chicken_song_sound = new Audio('./assets/audio/chicken_song.mp3');
+    dead_chicken_sound = sounds[0];
+    collecting_coin_sound = sounds[8];
+    chicken_song_sound = sounds[10];
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, sounds) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.sounds = sounds;
         this.drawWorld();
         this.setWorld();
         this.run();
         this.checkCharacterLocation();
         this.chicken_song_sound.play();
-        this.chicken_song_sound.volume = 0.2;
     }
 
     setWorld() {
@@ -131,7 +133,6 @@ class World {
             if (indexOfChicken < this.level.enemies.length - 1) {
                 if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0 && !enemy.chickenIsDead) {
                     this.dead_chicken_sound.play();
-                    this.dead_chicken_sound.volume = 0.2;
                     this.killChicken(enemy);
                     this.character.jump();
                 }
@@ -146,7 +147,6 @@ class World {
             let endboss = world.level.enemies[indexOfEndboss];
             if (this.throwableObject[lastBottle].bottleIsColliding(enemy) && indexOfChicken < indexOfEndboss) {
                 this.dead_chicken_sound.play();
-                this.dead_chicken_sound.volume = 0.2;
                 this.killChicken(enemy);
                 this.bottleHit = true;
             }
@@ -187,6 +187,7 @@ class World {
             if (this.character.isColliding(cC)) {
                 this.level.collactableCoins.splice(indexOfCoin, 1);
                 this.coins++;
+                this.collecting_coin_sound.play();
             }
         });
     }
