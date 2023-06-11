@@ -32,24 +32,4 @@ class DrawableObject {
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
-
-   /* drawFrame(ctx) {
-        if (this instanceof Character) {
-            this.drawFramePath(ctx);
-            ctx.rect(this.x + 30, this.y + 120, this.width - 70, this.height - 130);
-            ctx.stroke();
-        }
-        else if (this instanceof Chicken || this instanceof BabyChicken || this instanceof CollactableBottles ||
-            this instanceof ThrowableObject || this instanceof CollactableCoins || this instanceof Endboss) {
-            this.drawFramePath(ctx);
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }*/
-
-    /*drawFramePath(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = "5";
-        ctx.strokeStyle = "blue";
-    }*/
 }

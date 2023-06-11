@@ -76,63 +76,90 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
-            if (keyboard.right && this.x < this.world.level.level_end_x && !this.isDead() && !world.endbossIsDead) {
-                this.walkRight();
-                this.walking_sound.play();
-            }
-            if (keyboard.left && this.x > -600 && !this.isDead() && !world.endbossIsDead) {
-                this.walkLeft();
-                this.walking_sound.play();
-            }
-            if (keyboard.jump && !this.isAboveGround() && !this.isDead() && !world.endbossIsDead) {
-                this.jump();
-                this.jumping_sound.play();
-            }
+            this.characterMoveActions();
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.images_dead);
-                this.stopSound(this.snoring_sound);
-                this.stopSound(world.chicken_song_sound);
-                this.character_dead_sound.play();
-                setTimeout(() => {
-                    clearAllIntervals();
-                    document.getElementById('youLostScreen').classList.remove('dp-none');
-                    document.getElementById('startButton').innerHTML = '<span>Try again</span>';
-                    document.getElementById('startButton').classList.remove('dp-none');
-                }, 3500);
-
-            }
-            else if (this.isHurt()) {
-                this.stopSound(this.snoring_sound);
-                this.playAnimation(this.images_hurting);
-                if (this.energy > 10) {
-                    this.character_hurting_sound.play();
-                }
-            }
-            else if (this.isAboveGround()) {
-                this.playAnimation(this.images_jumping);
-            }
-            else if (this.standingStill() && !this.isAboveGround() && !world.endbossIsDead) {
-                this.sleepAnimation(this.images_sleeping);
-                if (keyboard.throwing) {
-                    this.lastMove = new Date().getTime() + 2000;
-                    this.currentImage = 0;
-                    this.alreadySlept = true;
-                    this.stopSound(sounds[6]);
-                }
-            }
-            else if (world.endbossIsDead) {
-                this.playAnimation(this.images_jumping);
-            }
-            else {
-                this.loadImage(this.images_sleeping[0]);
-                if (keyboard.right || keyboard.left) {
-                    this.playAnimation(this.images_walking);
-                }
-            }
+            this.characterAnimations();
         }, 150);
+    }
+
+    characterMoveActions() {
+        if (keyboard.right && this.x < this.world.level.level_end_x && !this.isDead() && !world.endbossIsDead) {
+            this.walkRight();
+            this.walking_sound.play();
+        }
+        if (keyboard.left && this.x > -600 && !this.isDead() && !world.endbossIsDead) {
+            this.walkLeft();
+            this.walking_sound.play();
+        }
+        if (keyboard.jump && !this.isAboveGround() && !this.isDead() && !world.endbossIsDead) {
+            this.jump();
+            this.jumping_sound.play();
+        }
+    }
+
+    characterAnimations() {
+        if (this.isDead()) {
+            this.characterIsDead();
+        }
+        else if (this.isHurt()) {
+            this.characterIsHurt();
+        }
+        else if (this.isAboveGround()) {
+            this.playAnimation(this.images_jumping);
+        }
+        else if (this.standingStill() && !this.isAboveGround() && !world.endbossIsDead) {
+            this.sleepingIfNotThrowing();
+        }
+        else if (world.endbossIsDead) {
+            this.playAnimation(this.images_jumping);
+        }
+        else {
+            this.standingIfNotMoving();
+        }
+    }
+
+    characterIsDead() {
+        this.playAnimation(this.images_dead);
+        this.stopSound(this.snoring_sound);
+        this.stopSound(world.chicken_song_sound);
+        this.character_dead_sound.play();
+        setTimeout(() => {
+            clearAllIntervals();
+            document.getElementById('youLostScreen').classList.remove('dp-none');
+            document.getElementById('startButton').innerHTML = '<span>Try again</span>';
+            document.getElementById('startButton').classList.remove('dp-none');
+        }, 3500);
+    }
+
+    characterIsHurt() {
+        this.stopSound(this.snoring_sound);
+        this.playAnimation(this.images_hurting);
+        if (this.energy > 10) {
+            this.character_hurting_sound.play();
+        }
+    }
+
+    standingIfNotMoving() {
+        this.loadImage(this.images_sleeping[0]);
+        if (keyboard.right || keyboard.left) {
+            this.playAnimation(this.images_walking);
+        }
+    }
+
+    sleepingIfNotThrowing() {
+        this.sleepAnimation(this.images_sleeping);
+        if (keyboard.throwing) {
+            this.stopSleeping();
+        }
+    }
+
+    stopSleeping() {
+        this.lastMove = new Date().getTime() + 2000;
+        this.currentImage = 0;
+        this.alreadySlept = true;
+        this.stopSound(this.snoring_sound);
     }
 }

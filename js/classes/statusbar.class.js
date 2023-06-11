@@ -40,10 +40,10 @@ class Statusbar extends DrawableObject {
         else if (this.percentage > 40) {
             return this.images_health[2];
         }
-        else if (this.percentage > 20) {
+        else if (this.percentage >= 20) {
             return this.images_health[1];
         }
-        else if (this.percentage >= 0) {
+        else if (this.percentage < 20) {
             return this.images_health[0];
         }
     }

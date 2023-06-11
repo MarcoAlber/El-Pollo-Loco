@@ -75,7 +75,6 @@ class MovableObject extends DrawableObject {
         this.lastMove = new Date().getTime() + 500;
     }
 
-
     jump() {
         this.alreadySlept = true;
         this.stopSound(this.snoring_sound);
@@ -90,15 +89,18 @@ class MovableObject extends DrawableObject {
         setInterval(() => {
             throwDirection;
         }, 25);
-
         setInterval(() => {
-            if (world.bottleHit) {
-                this.playAnimation(this.images_splash);
-            }
-            else {
-                this.playAnimation(this.images_rotation);
-            }
+            this.checkBottleHit();
         }, 120);
+    }
+
+    checkBottleHit() {
+        if (world.bottleHit) {
+            this.playAnimation(this.images_splash);
+        }
+        else {
+            this.playAnimation(this.images_rotation);
+        }
     }
 
     throwBottleFront() {
@@ -123,23 +125,39 @@ class MovableObject extends DrawableObject {
 
     sleepAnimation(image) {
         if (this.alreadySlept) {
-            this.currentImage = 0;
-            this.alreadySlept = false;
+            this.setSleepToStartpoint();
         }
         let i = this.currentImage % image.length;
         let path = image[i];
         this.img = this.imageCache[path];
+        this.sleepingStartpoints(i, image);
+    }
+
+    sleepingStartpoints(i, image) {
         if (i < 8) {
             this.currentImage++;
         }
         if (i >= 8) {
-            this.currentImage++;
-            this.snoring_sound.play();
+            this.startSnoring();
         }
         if (i == image.length - 1) {
-            this.currentImage = 8;
-            this.currentImage % image.length;
+            this.repeatSleeping(image);
         }
+    }
+
+    setSleepToStartpoint() {
+        this.currentImage = 0;
+        this.alreadySlept = false;
+    }
+
+    startSnoring() {
+        this.currentImage++;
+        this.snoring_sound.play();
+    }
+
+    repeatSleeping(image) {
+        this.currentImage = 8;
+        this.currentImage % image.length;
     }
 
     isColliding(mo) {

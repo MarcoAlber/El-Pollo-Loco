@@ -31,6 +31,10 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.width = 400 / 4;
         this.height = 400 / 4;
+        this.checkCharacterDirection();
+    }
+
+    checkCharacterDirection() {
         if (!world.character.otherDirection) {
             world.bottleHit = false;
             this.throw(this.throwBottleFront());

@@ -21,15 +21,19 @@ function init() {
         document.getElementById('turnDevice').open = true;
     }
     else {
-        document.getElementById('turnDevice').open = false;
-        canvas = document.getElementById('canvas');
-        document.getElementById('startButton').classList.add('dp-none');
-        document.getElementById('youLostScreen').classList.add('dp-none');
-        document.getElementById('gameOverScreen').classList.add('dp-none');
-        initLevel();
-        world = new World(canvas, keyboard, sounds);
-        moveButtons();
+        startGame();
     }
+}
+
+function startGame() {
+    document.getElementById('turnDevice').open = false;
+    canvas = document.getElementById('canvas');
+    document.getElementById('startButton').classList.add('dp-none');
+    document.getElementById('youLostScreen').classList.add('dp-none');
+    document.getElementById('gameOverScreen').classList.add('dp-none');
+    initLevel();
+    world = new World(canvas, keyboard, sounds);
+    moveButtons();
 }
 
 window.addEventListener("load", startScreen);
@@ -191,17 +195,25 @@ function showMoveButtons() {
 
 function soundOnOff() {
     if (soundOn) {
-        document.getElementById('soundOnButtonImg').src = "./assets/img/moveButtons/sound-off.png";
-        soundOn = false;
-        for (let i = 0; i < sounds.length; i++) {
-            sounds[i].volume = 0;
-        }
+        turnSoundOff();
     }
     else {
-        document.getElementById('soundOnButtonImg').src = "./assets/img/moveButtons/sound.png";
-        soundOn = true;
-        gameSound();
+        turnSoundOn();
     }
+}
+
+function turnSoundOff() {
+    document.getElementById('soundOnButtonImg').src = "./assets/img/moveButtons/sound-off.png";
+    soundOn = false;
+    for (let i = 0; i < sounds.length; i++) {
+        sounds[i].volume = 0;
+    }
+}
+
+function turnSoundOn() {
+    document.getElementById('soundOnButtonImg').src = "./assets/img/moveButtons/sound.png";
+    soundOn = true;
+    gameSound();
 }
 
 function gameSound() {
