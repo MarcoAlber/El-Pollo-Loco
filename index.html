@@ -49,7 +49,7 @@
                 <span>Start Game</span>
             </div>
             <dialog class="turnDevice" id="turnDevice">
-                <span>Turn your device for the best game experience!</span>
+                <span>Turn your device and press "Start Game" for a better game experience!</span>
             </dialog>
             <div onclick="openInfoContainer()" class="infoButton" id="infoButton"><img
                     src="./assets/img/moveButtons/info.png">
@@ -90,15 +90,17 @@
                     <div onclick="soundOnOff()" class="soundButton" id="soundButton">
                         <img id="soundOnButtonImg" src="./assets/img/moveButtons/sound.png">
                     </div>
-                    <div>
-                        <div class="walkLeftButton dp-none" id="walkLeftButton"><img
+                    <div oncontextmenu="return false;">
+                        <div class="walkLeftButton dp-none" id="walkLeftButton"><img id="walkLeftButtonImg"
                                 src="./assets/img/moveButtons/left-128.png"></div>
-                        <div class="walkRightButton dp-none" id="walkRightButton"><img
+                        <div class="walkRightButton dp-none" id="walkRightButton"><img id="walkRightButtonImg"
                                 src="./assets/img/moveButtons/right-128.png">
                         </div>
-                        <div class="jumpButton dp-none" id="jumpButton"><img src="./assets/img/moveButtons/jump.png">
+                        <div class="jumpButton dp-none" id="jumpButton"><img id="jumpButtonImg"
+                                src="./assets/img/moveButtons/jump.png">
                         </div>
-                        <div class="throwButton dp-none" id="throwButton"><img src="./assets/img/moveButtons/throw.png">
+                        <div class="throwButton dp-none" id="throwButton"><img id="throwButtonImg"
+                                src="./assets/img/moveButtons/throw.png">
                         </div>
                     </div>
                     <canvas width="720" height="480" id="canvas">

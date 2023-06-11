@@ -29,6 +29,12 @@ canvas {
     display: block;
 }
 
+.canvasFullscreen {
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0px;
+}
+
 .turnDevice {
     max-width: 60%;
     border-radius: 25px;
@@ -253,6 +259,12 @@ td {
 @media (max-width: 500px) {
     .startButton {
         font-size: 25px;
+    }
+}
+
+@media only screen and (orientation: landscape) {
+    .turnDevice {
+        display: none;
     }
 }
 

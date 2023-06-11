@@ -17,7 +17,7 @@ let sounds = [
 ];
 
 function init() {
-    if (window.innerHeight > window.innerWidth) {
+    if (window.matchMedia("(orientation: portrait)").matches) {
         document.getElementById('turnDevice').open = true;
     }
     else {
@@ -62,10 +62,7 @@ function openInfoContainer() {
 
 function fullscreen() {
     let fullscreen = document.getElementById('fullscreen');
-    let canvas = document.getElementById('canvas');
-    canvas.style.width = "100%";
-    canvas.style.height = "100dvh";
-    canvas.style.borderRadius = "0";
+    document.getElementById('canvas').classList.add('canvasFullscreen');
     document.getElementById('infoContainer').style.borderRadius = "0";
     document.getElementById('fullscreenButtonImg').src = "./assets/img/moveButtons/fullscreen-exit.png";
     document.getElementById('fullscreenButton').onclick = function () { exitFullscreen() };
@@ -89,15 +86,12 @@ function enterFullscreen(element) {
 }
 
 function exitFullscreen() {
-    let canvas = document.getElementById('canvas');
     if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
     }
     document.getElementById('fullscreenButtonImg').src = "./assets/img/moveButtons/fullscreen.png";
     document.getElementById('fullscreenButton').onclick = function () { fullscreen() };
-    canvas.style.width = "720px";
-    canvas.style.height = "480px";
-    canvas.style.borderRadius = "25px";
+    document.getElementById('canvas').classList.remove('canvasFullscreen');
     document.getElementById('infoContainer').style.borderRadius = "25px";
 }
 
