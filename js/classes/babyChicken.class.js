@@ -1,3 +1,4 @@
+/** Class of an extension of MovableObject representing a small chicken */
 class BabyChicken extends MovableObject {
     y = 370;
     width = 236 / 4.5;
@@ -22,6 +23,10 @@ class BabyChicken extends MovableObject {
         this.playAnimation(this.images_walking);
     }, 150);
 
+    /**
+     * load the small chicken into the canvas and let it walk to the left side
+     * @param {number} positionX = random x coordinate of a small chicken
+     */
     constructor(positionX) {
         super().loadImage(this.images_walking[0]);
         this.loadImages(this.images_walking);
@@ -30,6 +35,7 @@ class BabyChicken extends MovableObject {
         this.animate();
     }
 
+    /** animates a small chicken walking */
     animate() {
         this.moveLeftObjects();
         this.intervalID;

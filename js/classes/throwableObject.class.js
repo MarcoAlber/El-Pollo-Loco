@@ -1,3 +1,4 @@
+/** Class of an extension of MovableObject representing a throwable bottle */
 class ThrowableObject extends MovableObject {
 
     offset = {
@@ -23,6 +24,11 @@ class ThrowableObject extends MovableObject {
 
     ];
 
+    /**
+     * loads the throwable bottle into the canvas
+     * @param {number} x = x coordinate of the throwable bottle
+     * @param {number} y = y coordinate of the throwable bottle
+     */
     constructor(x, y) {
         super().loadImage('./assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png');
         this.loadImages(this.images_rotation);
@@ -34,6 +40,7 @@ class ThrowableObject extends MovableObject {
         this.checkCharacterDirection();
     }
 
+    /** checks which direction the character is looking and throws the bottle in this direction */
     checkCharacterDirection() {
         if (!world.character.otherDirection) {
             world.bottleHit = false;

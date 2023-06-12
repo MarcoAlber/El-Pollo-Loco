@@ -1,3 +1,4 @@
+/** Class of an extension of MovableObject which can collide with other collidable objects */
 class CollidableObject extends MovableObject {
     offset = {
         top: 0,

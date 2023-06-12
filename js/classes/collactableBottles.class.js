@@ -1,3 +1,4 @@
+/** Class of an extension of DrawableObject representing a collactable bottle */
 class CollactableBottles extends DrawableObject {
     offset = {
         top: 10,
@@ -11,6 +12,11 @@ class CollactableBottles extends DrawableObject {
     ];
     randomBottle = Math.floor(Math.random() * this.bottleOnGround.length);
 
+    /**
+     * loads the collactable bottle into the canvas and place it into a random coordinate
+     * @param {number} x = x coordinate of the collactable bottle
+     * @param {number} y = y coordinate of the collactable bottle
+     */
     constructor(x, y) {
         super();
         if (y < 300) {

@@ -1,3 +1,4 @@
+/** Class of an extension of DrawableObject representing the statusbar of the endboss */
 class StatusbarEndboss extends DrawableObject {
 
     images_health = [
@@ -12,6 +13,7 @@ class StatusbarEndboss extends DrawableObject {
 
     percentage = 100;
 
+    /** loads the statusbar of the endboss into the canvas */
     constructor() {
         super();
         this.loadImages(this.images_health);
@@ -22,12 +24,20 @@ class StatusbarEndboss extends DrawableObject {
         this.setPercentage(this.energy);
     }
 
+    /**
+     * 
+     * @param {number} percentage = energy of the endboss
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.resolveImageIndex();
         this.img = this.imageCache[path];
     }
 
+    /**
+     * checks the energy of the endboss and changes the statusbar image
+     * @returns current health statusbar of the endboss 
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return this.images_health[5];

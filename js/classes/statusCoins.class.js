@@ -1,5 +1,7 @@
+/** Class of an extension of DrawableObject representing the current collected coins */
 class StatusCoins extends DrawableObject {
 
+    /** draws the coin into the status area */
     constructor() {
         super();
         this.loadImage('./assets/img/8_coin/coin_1.png');

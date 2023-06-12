@@ -1,3 +1,4 @@
+/** Class of an extension of MovableObject representing the endboss */
 class Endboss extends MovableObject {
     images_walking = [
         './assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -50,6 +51,10 @@ class Endboss extends MovableObject {
     endboss_hurting_sound = sounds[6];
     endboss_dead_sound = sounds[7];
 
+    /**
+     * loads the different animation images into the canvas
+     * @param {number} positionX = x coordinate of the endboss
+     */
     constructor(positionX) {
         super().loadImage(this.images_alert[0]);
         this.loadImages(this.images_alert);
@@ -61,12 +66,14 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /** interval of the endboss animations */
     animate() {
         setInterval(() => {
             this.enbossAnimation();
         }, 250);
     }
 
+    /** animate the endboss start walking || attacking || alert || is hurted || is dead */
     enbossAnimation() {
         if (world.endbossAlreadySeen) {
             this.startWalking();
@@ -85,17 +92,20 @@ class Endboss extends MovableObject {
         }
     }
 
+    /** animate the endboss starts walking */
     startWalking() {
         this.playAnimation(this.images_walking);
         this.moveLeftObjects();
         this.speed = 0.025;
     }
 
+    /** animate the endboss attacking */
     attackAnimation() {
         this.playAnimation(this.images_attack);
         this.speed = 0;
     }
 
+    /** animate the endboss is hurted */
     enbossIsHurt() {
         if (!world.endbossIsDead) {
             this.endboss_hurting_sound.play();
@@ -103,6 +113,7 @@ class Endboss extends MovableObject {
         this.playAnimation(this.images_hurt);
     }
 
+    /** animate the endboss is dead and ends the game */
     endbossDeadAnimation() {
         this.endboss_dead_sound.play();
         this.stopSound(world.chicken_song_sound);

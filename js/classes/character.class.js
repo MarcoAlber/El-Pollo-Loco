@@ -1,3 +1,4 @@
+/** Class of an extension of MovableObject representing the character */
 class Character extends MovableObject {
     images_walking = [
         './assets/img/2_character_pepe/2_walk/W-21.png',
@@ -61,7 +62,7 @@ class Character extends MovableObject {
     character_hurting_sound = sounds[4];
     character_dead_sound = sounds[5];
 
-
+    /** loads the different animation images into the canvas and let the character move */
     constructor() {
         super().loadImage(this.images_sleeping[0]);
         this.loadImages(this.images_sleeping);
@@ -73,6 +74,7 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    /** moves the character */
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
@@ -85,6 +87,7 @@ class Character extends MovableObject {
         }, 150);
     }
 
+    /** moves the character left || right || or let him jump */
     characterMoveActions() {
         if (keyboard.right && this.x < this.world.level.level_end_x && !this.isDead() && !world.endbossIsDead) {
             this.walkRight();
@@ -100,6 +103,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** animate the character is dead || is hurted || is jumping || is sleeping || standing */
     characterAnimations() {
         if (this.isDead()) {
             this.characterIsDead();
@@ -121,6 +125,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** animate the dead of the character and ends the game */
     characterIsDead() {
         this.playAnimation(this.images_dead);
         this.stopSound(this.snoring_sound);
@@ -134,6 +139,7 @@ class Character extends MovableObject {
         }, 3500);
     }
 
+    /** animate that the character is hurted */
     characterIsHurt() {
         this.stopSound(this.snoring_sound);
         this.playAnimation(this.images_hurting);
@@ -142,6 +148,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** character is standing still */
     standingIfNotMoving() {
         this.loadImage(this.images_sleeping[0]);
         if (keyboard.right || keyboard.left) {
@@ -149,6 +156,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** animate that the character is sleeping */
     sleepingIfNotThrowing() {
         this.sleepAnimation(this.images_sleeping);
         if (keyboard.throwing) {
@@ -156,6 +164,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** stops the sleeping animation */
     stopSleeping() {
         this.lastMove = new Date().getTime() + 2000;
         this.currentImage = 0;

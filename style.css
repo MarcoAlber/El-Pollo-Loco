@@ -81,7 +81,6 @@ canvas {
     border-radius: 25px;
     border: 0;
     z-index: 10;
-
 }
 
 .howToPlay {
@@ -162,6 +161,7 @@ td {
 }
 
 .walkLeftButton {
+    display: none;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -173,6 +173,7 @@ td {
 }
 
 .walkRightButton {
+    display: none;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -184,6 +185,7 @@ td {
 }
 
 .jumpButton {
+    display: none;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -195,6 +197,7 @@ td {
 }
 
 .throwButton {
+    display: none;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -224,7 +227,7 @@ td {
 }
 
 .dp-none {
-    display: none;
+    display: none !important;
 }
 
 @media (min-width: 1920px) {
@@ -248,6 +251,22 @@ td {
 
     .infoContainer {
         display: none;
+    }
+
+    .walkLeftButton {
+        display: block;
+    }
+
+    .walkRightButton {
+        display: block;
+    }
+
+    .jumpButton {
+        display: block;
+    }
+
+    .throwButton {
+        display: block;
     }
 }
 

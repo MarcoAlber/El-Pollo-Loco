@@ -1,18 +1,19 @@
 let level1;
 
+/** creates the level objects */
 function initLevel() {
     level1 = new Level(
 
         [
-            new Chicken(200),
-            new Chicken(300),
-            new Chicken(400),
-            new BabyChicken(500),
-            new BabyChicken(600),
-            new BabyChicken(700),
-            new BabyChicken(1000),
-            new BabyChicken(1100),
-            new Chicken(1200),
+            new Chicken(getRandomChickenX()),
+            new Chicken(getRandomChickenX()),
+            new Chicken(getRandomChickenX()),
+            new BabyChicken(getRandomChickenX()),
+            new BabyChicken(getRandomChickenX()),
+            new BabyChicken(getRandomChickenX()),
+            new BabyChicken(getRandomChickenX()),
+            new BabyChicken(getRandomChickenX()),
+            new Chicken(getRandomChickenX()),
             new Endboss(2200)
         ],
         [
@@ -79,12 +80,30 @@ function initLevel() {
     );
 }
 
+/**
+ * set a random x position for the collactable bottles and coins
+ * @returns random number between -600 and 2000
+ */
 function getRandomX() {
     min = Math.ceil(-600);
     max = Math.floor(2000);
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+/**
+ * set a random x position for the chickens
+ * @returns random number between 200 and 1500
+ */
+function getRandomChickenX() {
+    min = Math.ceil(200);
+    max = Math.floor(1500);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+/**
+ * set a random y position for the collactable bottles and coins
+ * @returns random number between 100 and 200
+ */
 function getRandomY() {
     min = Math.ceil(100);
     max = Math.floor(200);

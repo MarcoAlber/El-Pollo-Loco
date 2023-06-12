@@ -1,3 +1,4 @@
+/** Class representing the drawable object/s which is loaded into the canvas */
 class DrawableObject {
     img;
     imageCache = {};
@@ -12,14 +13,18 @@ class DrawableObject {
     hitHeight = this.height - 130;
     energy = 100;
 
+    /**
+     * loads a single image
+     * @param {path} path = image
+     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
     /**
-     * 
-     * @param {Array} arr = [img, img,...]
+     * loads an array of images
+     * @param {array} arr = [img, img,...]
      */
     loadImages(arr) {
         arr.forEach(path => {
@@ -29,6 +34,10 @@ class DrawableObject {
         });
     }
 
+    /**
+     * draws the image/s into the canvas
+     * @param {canvas} ctx = canvas.getContext('2d')
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
