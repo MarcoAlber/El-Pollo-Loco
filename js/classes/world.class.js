@@ -268,7 +268,7 @@ class World {
      * @param {Object} endboss = endboss
      */
     bottleHittedEndboss(enemy, endboss) {
-        if (enemy.energy > 0 && !endboss.isHurt()) {
+        if (enemy.energy > 0 && !endboss.isHurt() && endboss.enbossLastHit()) {
             this.bottleHurtedEndboss(enemy);
         }
         if (enemy.energy <= 0) {

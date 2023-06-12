@@ -40,6 +40,16 @@ class MovableObject extends DrawableObject {
     }
 
     /**
+     * checks if time of last endboss hit is longer than 1.5 sec ago
+     * @returns if time is longer than 1.5 sec ago
+     */
+    enbossLastHit() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed > 1.5;
+    }
+
+    /**
      * checks if time of last hit is longer than 2 sec ago
      * @returns if time is longer than 2 sec ago
      */
