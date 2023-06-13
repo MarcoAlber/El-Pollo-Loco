@@ -133,12 +133,20 @@ class MovableObject extends DrawableObject {
 
     /** change animation if bottle hits or not */
     checkBottleHit() {
-        if (world.bottleHit) {
+        if (world.bottleHit || this.bottleHitsGround()) {
             this.playAnimation(this.images_splash);
         }
         else {
             this.playAnimation(this.images_rotation);
         }
+    }
+
+    /**
+     * checks if bottle hits ground
+     * @returns if bottle hits ground
+     */
+    bottleHitsGround() {
+        return this.speedY < -18;
     }
 
     /** throws bottle to right side */
