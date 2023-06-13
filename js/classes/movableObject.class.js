@@ -50,8 +50,8 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * checks if time of last hit is longer than 2 sec ago
-     * @returns if time is longer than 2 sec ago
+     * checks if time of last hit is longer than 1 sec ago
+     * @returns if time is longer than 1 sec ago
      */
     standingStill() {
         let timepassed = new Date().getTime() - this.lastMove;
