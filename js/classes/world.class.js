@@ -355,7 +355,7 @@ class World {
     /** adds all statusbars into the world */
     addStatusbarsToMap() {
         this.addToMap(this.statusbar);
-        if (this.character.x > 1700 || this.endbossAlreadySeen) {
+        if (this.character.x > 1680 || this.endbossAlreadySeen) {
             this.endbossAlreadySeen = true;
             this.addToMap(this.statusbarEndboss);
         }

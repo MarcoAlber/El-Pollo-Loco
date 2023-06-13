@@ -18,7 +18,7 @@ class MovableObject extends DrawableObject {
                 this.hitY -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 43);
+        }, 1000 / 60);
     }
 
     /** reduce the energy by 10 after a hit */
@@ -56,7 +56,7 @@ class MovableObject extends DrawableObject {
     standingStill() {
         let timepassed = new Date().getTime() - this.lastMove;
         timepassed = timepassed / 1000;
-        return timepassed > 2;
+        return timepassed > 1;
     }
 
     /**
